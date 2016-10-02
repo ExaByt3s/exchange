@@ -1,0 +1,102 @@
+<section class="dashboard">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-7">
+                        <h1 class="h3">Exchange Online - your account</h1>
+                    </div>
+                    <div class="col-xs-5 text-xs-right">
+                        <span class="user-full-name">Logged as {{ full_name }}</span>
+                        <a href="{{ dashboard_url }}"><img src="assets/img/dashboard.svg" class="navigation-icon" data-toggle="tooltip" data-placement="bottom" title="Dashboard"></a>
+                        <a href="{{ logout_url }}"><img src="assets/img/logout.svg" class="navigation-icon" data-toggle="tooltip" data-placement="bottom" title="Logout"></a>
+                    </div>
+                </div>
+                <hr class="with-margin">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form method="POST" action="{{ transfer_form_url }}" id="transferForm">
+                    <p>You can enter the amount of money to be transferred from your currency accounts or returned to them.</p>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label for="pln">PLN</label>
+                                <input id="pln" class="form-control" name="pln" maxlength="7" value="{{ currencies.pln }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="usd">USD</label>
+                                <input id="usd" class="form-control" name="usd" maxlength="7" value="{{ currencies.usd }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="eur">EUR</label>
+                                <input id="eur" class="form-control" name="eur" maxlength="7" value="{{ currencies.eur }}">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label for="chf">CHF</label>
+                                <input id="chf" class="form-control" name="chf" maxlength="7" value="{{ currencies.chf }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="rub">RUB</label>
+                                <input id="rub" class="form-control" name="rub" maxlength="7" value="{{ currencies.rub }}">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label for="czk">CZK</label>
+                                <input id="czk" class="form-control" name="czk" maxlength="7" value="{{ currencies.czk }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="gbp">GBP</label>
+                                <input id="gbp" class="form-control" name="gbp" maxlength="7" value="{{ currencies.gbp }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Transfer money</button>
+                </form>
+
+                <hr class="with-margin">
+
+                <form method="POST" action="{{ form_url }}" id="activationForm">
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input id="email" class="form-control" type="email" value="{{ email }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input id="username" class="form-control" type="text" name="login">
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">First name</label>
+                        <input id="firstName" class="form-control" type="text" name="firstname">
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Surname</label>
+                        <input id="surname" class="form-control" type="text" name="surname">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+
+                <hr class="with-margin">
+
+                <form method="POST" action="{{ form_url }}" id="activationForm">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input id="password" class="form-control" type="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input id="confirmPassword" class="form-control" type="password2">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Change password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

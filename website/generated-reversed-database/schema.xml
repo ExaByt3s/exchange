@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="config" idMethod="native" phpName="Config"/>
+  <table name="transactions" idMethod="native" phpName="Transactions"/>
+  <table name="users" idMethod="native" phpName="Users">
+    <unique name="users_email_key">
+      <unique-column name="email"/>
+    </unique>
+  </table>
+  <table name="wallets" idMethod="native" phpName="Wallets"/>
+</database>

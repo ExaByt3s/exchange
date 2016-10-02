@@ -1,0 +1,100 @@
+<section class="dashboard">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-7">
+                        <h1 class="h3">Exchange Online - dashboard</h1>
+                    </div>
+                    <div class="col-xs-5 text-xs-right">
+                        <span class="user-full-name">Logged as {{ full_name }}</span>
+                        <a href="{{ account_url }}"><img src="assets/img/account.svg" class="navigation-icon" data-toggle="tooltip" data-placement="bottom" title="Your account"></a>
+                        <a href="{{ logout_url }}"><img src="assets/img/logout.svg" class="navigation-icon" data-toggle="tooltip" data-placement="bottom" title="Logout"></a>
+                    </div>
+                </div>
+                <hr class="with-margin">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-lg-6">
+                <h2 class="h4">Currencies</h2>
+                <hr>
+                <div class="table-wrapper" data-bind="visible: ! lastUpdateTime()"><img src="assets/img/loading.svg"></div>
+                <table class="table table-hover currencies-table" data-bind="visible: lastUpdateTime()">
+                    <thead>
+                    <tr>
+                        <th>Currency</th>
+                        <th>Unit</th>
+                        <th>Value</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody data-bind="foreach: currencies">
+                    <tr>
+                        <th scope="row" data-bind="text: Code, attr: { title: Name }" data-toggle="tooltip" data-placement="left"></th>
+                        <td data-bind="text: Unit"></td>
+                        <td data-bind="text: SellPrice"></td>
+                        <td>
+                            <button type="button"
+                                    class="btn btn-secondary no-margin"
+                                    data-bind="enable: Unit > 0, attr: { 'data-modalBoxUrlParam': Code }"
+                                    data-openModalBox="modalBox"
+                                    data-modalBoxUrl="{{ purchase_url }}/exchange/purchase">Buy</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+
+                <p>Last update: <span data-bind="text: lastUpdateTime()"></span></p>
+            </div>
+
+            <div class="col-xs-12 col-lg-6">
+                <h2 class="h4">My wallet</h2>
+                <hr>
+                <div class="table-wrapper" data-bind="visible: ! lastUpdateTime()"><img src="assets/img/loading.svg"></div>
+                <table class="table table-hover wallet-table" data-bind="visible: lastUpdateTime()">
+                    <thead>
+                    <tr>
+                        <th>Currency</th>
+                        <th>Unit&nbsp;price</th>
+                        <th>Amount</th>
+                        <th>Value</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody data-bind="foreach: currencies">
+                    <tr>
+                        <th scope="row" data-bind="text: Code, attr: { title: Name }" data-toggle="tooltip" data-placement="left"></th>
+                        <td data-bind="text: UnitPrice"></td>
+                        <td data-bind="text: AvailableInWallet"></td>
+                        <td data-bind="text: PurchasePrice"></td>
+                        <td>
+                            <button type="button"
+                                    class="btn btn-secondary no-margin"
+                                    data-bind="enable: (AvailableInWallet >= Unit && Unit > 0)"
+                                    data-openModalBox="modalBox"
+                                    data-modalBoxUrl="{{ sell_url }}">Sell</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+
+                <p>Available PLN: <span>{{ currencies.pln|number_format(2) }}</span></p>
+
+                <div class="hidden">
+                    <span data-currency="pln">{{ currencies.pln|number_format(2) }}</span>
+                    <span data-currency="usd">{{ currencies.usd|number_format(2) }}</span>
+                    <span data-currency="eur">{{ currencies.eur|number_format(2) }}</span>
+                    <span data-currency="chf">{{ currencies.chf|number_format(2) }}</span>
+                    <span data-currency="rub">{{ currencies.rub|number_format(2) }}</span>
+                    <span data-currency="czk">{{ currencies.czk|number_format(2) }}</span>
+                    <span data-currency="gbp">{{ currencies.gbp|number_format(2) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

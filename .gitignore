@@ -1,0 +1,6 @@
+.git/*
+.idea/*
+.vagrant/*
+website/node_modules/*
+website/vendor/*
+*.log

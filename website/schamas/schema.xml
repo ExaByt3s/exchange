@@ -1,0 +1,45 @@
+<database name="exchange" defaultIdMethod="native"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd"
+          namespace=""
+        >
+    <table name="users" phpName="Users">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="login" type="varchar" size="64" required="false"/>
+        <column name="email" type="varchar" size="255" required="true"/>
+        <column name="firstname" type="varchar" size="64" required="false"/>
+        <column name="surname" type="varchar" size="64" required="false"/>
+        <column name="password" type="varchar" size="64" required="true"/>
+        <column name="wallet_id" type="integer" required="true"/>
+        <column name="status" type="varchar" size="1" required="true" default="0"/>
+        <foreign-key foreignTable="wallets">
+            <reference local="wallet_id" foreign="id"/>
+        </foreign-key>
+    </table>
+
+    <table name="wallets" phpName="Wallets">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="pln" type="real" required="true" defaultValue="0"/>
+        <column name="usd" type="real" required="true" defaultValue="0"/>
+        <column name="eur" type="real" required="true" defaultValue="0"/>
+        <column name="chf" type="real" required="true" defaultValue="0"/>
+        <column name="rub" type="real" required="true" defaultValue="0"/>
+        <column name="czk" type="real" required="true" defaultValue="0"/>
+        <column name="gbp" type="real" required="true" defaultValue="0"/>
+    </table>
+
+    <table name="config" phpName="Config">
+        <column name="name" type="varchar" size="64" required="true"/>
+        <column name="value" type="varchar" size="255" required="true"/>
+    </table>
+
+    <table name="tokens" phpName="Tokens">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="user_id" type="integer" required="true"/>
+        <column name="type" type="smallint" required="true"/>
+        <column name="value" type="varchar" size="64" required="true"/>
+        <foreign-key foreignTable="users">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+    </table>
+</database>

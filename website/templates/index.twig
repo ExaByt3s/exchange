@@ -1,0 +1,22 @@
+<!doctype HTML>
+<html>
+    <head>
+        <base href="{{ base_url }}">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{{ website_title }}</title>
+        <link rel="stylesheet" href="/assets/vendors.css" integrity="sha256-v52u5Pa70tAuDK9vh74FFKKHWt0lqvME2fQjdE1jPMA=">
+        <link rel="stylesheet" href="/assets/main.css">
+    </head>
+    <body>
+        <main class="container">
+            {{ website_page }}
+            {{ include('/sections/footer.twig') }}
+            {{ include('/sections/modalbox.twig') }}
+        </main>
+
+        <script src="/assets/vendors.js" integrity="sha256-9i7NeB8xD/Ew/kHpaGNek8nU7BaojGWRuzZM5oKajoU="></script>
+        <script src="/assets/main.js"></script>
+    </body>
+</html>
