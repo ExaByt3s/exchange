@@ -9,6 +9,9 @@
  * Install VirtualBox
  * Install Git
  * Install Vagrant
+ * Open any directory in system console
+ * Run: __*git clone https://github.com/chybaDapi/exchange.git*__
+ * Change default Exchange wallet in __*database.sql*__ (lines 62-69)
  * Open __*exchange*__ directory in system console
  * Run: __*vagrant up*__
  
@@ -20,15 +23,15 @@
  * Run: __*npm install*__
  
  
- ## X. Post-instalation
+## 3. Post-instalation
   * Add __*192.168.33.10 exchange.dev*__ to yout hosts file *(System32/drivers/ets)*
+  * Open exchange.dev in your web browser
+  * Pray :)
  
 
-
-
- w database zmienić ilości początkowe
-
-
+## N. A few words at the end...
+  * The application implemented SRI. Hashes CSS and JS files are generated to website/sri.json and should be changed in website/templates/index.twigg after each gulped.
+  
 
 
 

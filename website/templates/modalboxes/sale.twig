@@ -2,9 +2,9 @@
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title" id="modalBoxTitle">Purchase of currency</h4>
+    <h4 class="modal-title" id="modalBoxTitle">Sale of currency</h4>
 </div>
-<form method="POST" action="{{ purchase_form_url }}">
+<form method="POST" action="{{ sell_form_url }}">
     <div class="modal-body">
         <div class="form-group">
             <label for="currency" class="form-control-label">Currency:</label>
@@ -19,12 +19,12 @@
             <input type="text" class="form-control" id="unitPrice" readonly value="{{ currency_price|number_format(2) }}" name="unit-price">
         </div>
         <div class="form-group">
-            <label for="total" class="form-control-label">Total cost:</label>
-            <input type="text" class="form-control" id="total" readonly value="0">
+            <label for="total" class="form-control-label">Total profit:</label>
+            <input type="text" class="form-control" id="total" disabled value="0">
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" data-loading-text="Please wait...">Confirm and buy!</button>
+        <button type="submit" class="btn btn-primary" data-loading-text="Please wait...">Confirm and sell!</button>
     </div>
 </form>

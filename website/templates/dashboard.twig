@@ -39,7 +39,7 @@
                                     class="btn btn-secondary no-margin"
                                     data-bind="enable: Unit > 0, attr: { 'data-modalBoxUrlParam': Code }"
                                     data-openModalBox="modalBox"
-                                    data-modalBoxUrl="{{ purchase_url }}/exchange/purchase">Buy</button>
+                                    data-modalBoxUrl="{{ purchase_url }}">Buy</button>
                         </td>
                     </tr>
                     </tbody>
@@ -73,7 +73,7 @@
                         <td>
                             <button type="button"
                                     class="btn btn-secondary no-margin"
-                                    data-bind="enable: (AvailableInWallet >= Unit && Unit > 0)"
+                                    data-bind="attr: { 'data-modalBoxUrlParam': Code }"
                                     data-openModalBox="modalBox"
                                     data-modalBoxUrl="{{ sell_url }}">Sell</button>
                         </td>

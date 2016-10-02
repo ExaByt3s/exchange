@@ -69,5 +69,3 @@ Homepage = (function () {
     };
 
 })();
-
-Homepage.init();

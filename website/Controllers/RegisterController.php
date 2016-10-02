@@ -21,7 +21,7 @@
                 if (! $validation->success) {
                     echo json_encode($validation);
                 } else {
-                    $userId = $users->createAccount();
+                    $userId = $users->createAccount($_POST['email'], $_POST['password']);
 
                     $tokens = new Tokens();
                     $token = $tokens->generateToken($userId, 1);

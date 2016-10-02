@@ -112,3 +112,4 @@
 SELECT * FROM users;
 SELECT * FROM tokens;
 SELECT * FROM wallets;
+SELECT * FROM config;

@@ -1,7 +1,7 @@
 Account = (function () {
 
-    var bindTransferForm = function () {
-        $('#transferForm').on('submit', function() {
+    var bindForms = function () {
+        $('form').on('submit', function() {
             var $form = $(this),
                 $submit = $form.find('button'),
                 $submitVal = $submit.text();
@@ -24,7 +24,7 @@ Account = (function () {
 
 
     var init = function () {
-        bindTransferForm();
+        bindForms();
     };
 
 
@@ -33,5 +33,3 @@ Account = (function () {
     };
 
 })();
-
-Account.init();

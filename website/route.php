@@ -9,20 +9,6 @@
     })->setName('home.index');
 
 
-    // Login
-    $app->post('/login', function() use($application) {
-        $controller = new controllers\LoginController($application);
-        $controller->login();
-    })->setName('login');
-
-
-    // Logout
-    $app->get('/logout', function() use($application) {
-        $controller = new controllers\LoginController($application);
-        $controller->logout();
-    })->setName('logout');
-
-
     // Registration and account activation
     $app->group('/register', function() use($app, $application) {
         $app->post('/register', function () use($app, $application) {
@@ -55,6 +41,21 @@
             $controller = new controllers\DashboardController($application);
             $controller->purchaseModal($args['code']);
         })->setName('exchange.purchase');
+
+        $app->post('/purchase/{code}', function($request, $response, $args) use($application) {
+            $controller = new controllers\DashboardController($application);
+            $controller->purchase($args['code']);
+        })->setName('exchange.purchase.post');
+
+        $app->get('/sale/{code}', function($request, $response, $args) use($application) {
+            $controller = new controllers\DashboardController($application);
+            $controller->saleModal($args['code']);
+        })->setName('exchange.sell');
+
+        $app->post('/sale/{code}', function($request, $response, $args) use($application) {
+            $controller = new controllers\DashboardController($application);
+            $controller->sale($args['code']);
+        })->setName('exchange.sell.post');
     });
 
 
@@ -65,10 +66,30 @@
             $controller->index();
         })->setName('account.index');
 
+        $app->post('/login', function() use($application) {
+            $controller = new controllers\AccountController($application);
+            $controller->login();
+        })->setName('login');
+
         $app->post('/transfer', function() use($application) {
             $controller = new controllers\AccountController($application);
             $controller->transferMoney();
         })->setName('account.transfer');
+
+        $app->post('/changePassword', function() use($application) {
+            $controller = new controllers\AccountController($application);
+            $controller->changePassword();
+        })->setName('account.change.password');
+
+        $app->post('/changeData', function() use($application) {
+            $controller = new controllers\AccountController($application);
+            $controller->changeData();
+        })->setName('account.change.data');
+
+        $app->get('/logout', function() use($application) {
+            $controller = new controllers\AccountController($application);
+            $controller->logout();
+        })->setName('logout');
     });
 
 
