@@ -17,10 +17,10 @@
 
             public function index() {
                 $session = new Sessions();
-                $userId = $session->check();
+                $userId = $session->getUserId();
 
                 if (! $userId) {
-                    header('Location: ' . $this->app->route->getContainer()->get('router')->pathFor('home.index'));
+                    header('Location: ' . $this->app->getRouteUrl('home.index'));
                     exit();
                 }
 
@@ -31,11 +31,12 @@
 
                 $this->app->template->variables['website_page'] = $this->app->twig->render('dashboard.twig', array(
                     'full_name' => $user['Firstname'] . ' ' . $user['Surname'],
-                    'account_url' => $this->app->route->getContainer()->get('router')->pathFor('account.index'),
-                    'logout_url' => $this->app->route->getContainer()->get('router')->pathFor('logout'),
-                    'purchase_url' => $this->app->route->getContainer()->get('router')->pathFor('exchange.purchase', ['code'=>'']),
-                    'sell_url' => $this->app->route->getContainer()->get('router')->pathFor('exchange.sell', ['code'=>'']),
-                    'currencies' => $currencies
+                    'account_url' => $this->app->getRouteUrl('account.index'),
+                    'logout_url' => $this->app->getRouteUrl('logout'),
+                    'purchase_url' => $this->app->getRouteUrl('exchange.purchase', ['code'=>'']),
+                    'sell_url' => $this->app->getRouteUrl('exchange.sell', ['code'=>'']),
+                    'currencies' => $currencies,
+                    'script_nonce' => $this->app->getScriptNonce()
                 ));
             }
 
@@ -60,7 +61,7 @@
                         'currency_name' => $currencyName,
                         'currency_price' => $currencySellPrice,
                         'currency_unit' => $currencyUnit,
-                        'purchase_form_url' => $this->app->route->getContainer()->get('router')->pathFor('exchange.purchase', ['code' => strtolower($currencyCode)]),
+                        'purchase_form_url' => $this->app->getRouteUrl('exchange.purchase', ['code' => strtolower($currencyCode)]),
                     ));
 
                 } else {
@@ -132,7 +133,7 @@
                         'currency_name' => $currencyName,
                         'currency_price' => $currencyBayPrice,
                         'currency_unit' => $currencyUnit,
-                        'sell_form_url' => $this->app->route->getContainer()->get('router')->pathFor('exchange.sell', ['code' => strtolower($currencyCode)]),
+                        'sell_form_url' => $this->app->getRouteUrl('exchange.sell', ['code' => strtolower($currencyCode)]),
                     ));
 
                 } else {

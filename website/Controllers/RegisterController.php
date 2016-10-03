@@ -32,7 +32,7 @@
                         $this->app->twig->render(
                             'email-registration.twig',
                             array(
-                                'link' => BASE_URL . $this->app->route->getContainer()->get('router')->pathFor('register.activation', ['token' => $token])
+                                'link' => BASE_URL . $this->app->getRouteUrl('register.activation', ['token' => $token])
                             )
                         )
                     );
@@ -65,12 +65,15 @@
                     $success = true;
                     $this->app->template->variables['website_page'] = $this->app->twig->render('activation.twig', [
                         'email' => $user['Email'],
-                        'form_url' => $this->app->route->getContainer()->get('router')->pathFor('register.activation', ['token' => $urlToken])
+                        'form_url' => $this->app->getRouteUrl('register.activation', ['token' => $urlToken]),
+                        'script_nonce' => $this->app->getScriptNonce()
                     ]);
                 }
 
                 if (! $success){
-                    $this->app->template->variables['website_page'] = $this->app->twig->render('error.twig', ['message' => Dictionary::init()['activation_link_invalid']]);
+                    $this->app->template->variables['website_page'] = $this->app->twig->render('error.twig', [
+                        'message' => Dictionary::init()['activation_link_invalid']
+                    ]);
                 }
             }
 
@@ -101,7 +104,9 @@
                     exit();
 
                 } else {
-                    $this->app->template->variables['website_page'] = $this->app->twig->render('error.twig', ['message' => Dictionary::init()['activation_link_invalid']]);
+                    $this->app->template->variables['website_page'] = $this->app->twig->render('error.twig', [
+                        'message' => Dictionary::init()['activation_link_invalid']
+                    ]);
                 }
             }
 

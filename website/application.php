@@ -1,27 +1,32 @@
 <?php
 
+    use Slim\App;
+    use Slim\Container;
+
     class Application {
         public $route;
         public $routeContainer;
         public $twig;
         public $template;
-        public $dictionary;
+        public $nonce;
 
 
         public function __construct() {
             $this->initSlim();
             $this->initTwig();
-            //$this->dictionary = new Dictionary();
         }
 
 
+        /**
+         * Initializes slim routing and bind custom 404 pages.
+         */
         private function initSlim() {
-            $this->routeContainer = new \Slim\Container();
+            $this->routeContainer = new Container();
 
             $routeContainer = $this->routeContainer;
 
             $routeContainer['notFoundHandler'] = function ($routeContainer) {
-                return function ($request, $response) use ($routeContainer) {
+                return function() use ($routeContainer) {
                     $this->template->variables['website_page'] = $this->twig->render('error.twig', ['message' => Dictionary::init()['error404']]);
 
                     return $routeContainer['response']
@@ -30,11 +35,25 @@
                 };
             };
 
-
-            $this->route = new \Slim\App($this->routeContainer);
+            $this->route = new App($this->routeContainer);
         }
 
 
+        /**
+         * Returns path for specified route name.
+         *
+         * @param string $routeName
+         * @param array $params
+         * @return string
+         */
+        public function getRouteUrl($routeName, $params = []) {
+            return $this->route->getContainer()->get('router')->pathFor($routeName, $params);
+        }
+
+
+        /**
+         * Initializez Twig.
+         */
         private function initTwig() {
             Twig_Autoloader::register();
 
@@ -45,11 +64,14 @@
         }
 
 
-        public function renderTwig() {
-            echo $this->template->render($this->template->variables);
-        }
-
-
+        /**
+         * Sends email via Gmail.
+         *
+         * @param string $recipient
+         * @param string $subject
+         * @param string $content
+         * @return bool
+         */
         public function sendEmail($recipient, $subject, $content) {
             $mail = new PHPMailer(true);
 
@@ -73,5 +95,19 @@
             } catch(Exception $e){
                 return false;
             }
+        }
+
+
+        /**
+         * Generates and returns nonce string for inline scripts in templates.
+         *
+         * @return string
+         */
+        public function getScriptNonce() {
+            if (empty($this->nonce)) {
+                $this->nonce = hash('sha256', SALT . rand(0, time()));
+            }
+
+            return $this->nonce;
         }
     }

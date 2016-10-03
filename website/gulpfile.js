@@ -42,21 +42,40 @@ gulp.task('compile-vendors-sass', function () {
 
 
 /**
- * Concatenates js and moves to assets in public_html.
+ * Minify main js and moves to assets in public_html.
  *
- * Source: assets/scripts/*.js
+ * Source: assets/scripts/main.js
  * Destination: public_html/assets/main.js
  * Observable: assets/scripts/*
  */
-gulp.task('minify-js', function () {
-    gulp.src('assets/scripts/*.js')
+gulp.task('minify-main-js', function () {
+    gulp.src('assets/scripts/main.js')
         .pipe(concat('main.js'))
         .pipe(uglify())
         .pipe(gulp.dest('public_html/assets/'))
         .pipe(sri())
         .pipe(gulp.dest('.'));
 
-    console.log('Task: minify-js - done!');
+    console.log('Task: minify-main-js - done!');
+});
+
+
+/**
+ * Concatenates modules js and moves to assets in public_html.
+ *
+ * Source: assets/scripts/modules/*.js
+ * Destination: public_html/assets/modules.js
+ * Observable: assets/scripts/moduls/*
+ */
+gulp.task('minify-modules-js', function () {
+    gulp.src('assets/scripts/modules/*.js')
+        .pipe(concat('modules.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('public_html/assets/'))
+        .pipe(sri())
+        .pipe(gulp.dest('.'));
+
+    console.log('Task: minify-modules-js - done!');
 });
 
 
@@ -85,8 +104,15 @@ gulp.task('minify-vendors-js', function () {
 
 gulp.task('watch', function() {
     gulp.watch('assets/sass/*', ['compile-sass']);
-    gulp.watch('assets/scripts/*', ['minify-js']);
+    gulp.watch('assets/scripts/modules/*', ['minify-modules-js']);
+    gulp.watch('assets/scripts/main.js', ['minify-main-js']);
 });
 
 
-gulp.task('default', ['compile-sass', 'minify-js', 'compile-vendors-sass', 'minify-vendors-js']);
+gulp.task('default', [
+    'compile-sass',
+    'compile-vendors-sass',
+    'minify-main-js',
+    'minify-modules-js',
+    'minify-vendors-js'
+]);

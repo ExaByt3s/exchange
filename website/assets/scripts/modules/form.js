@@ -1,7 +1,13 @@
-Account = (function () {
+Forms = (function () {
 
-    var bindForms = function () {
-        $('form').on('submit', function() {
+    /**
+     * Binds ajax request to form submit event.
+     *
+     * @param {object} $form
+     * @param {function|null} callback
+     */
+    var initAjaxSubmit = function ($form, callback) {
+        $form.on('submit', function() {
             var $form = $(this),
                 $submit = $form.find('button'),
                 $submitVal = $submit.text();
@@ -16,20 +22,18 @@ Account = (function () {
                 var message = JSON.parse(data);
                 Toasters.create(message.message);
                 $form.find('button').text($submitVal);
+
+                if (callback !== null) {
+                    callback(message);
+                }
             });
 
             return false;
         });
     };
 
-
-    var init = function () {
-        bindForms();
-    };
-
-
     return {
-        init: init
+        initAjaxSubmit: initAjaxSubmit
     };
 
 })();

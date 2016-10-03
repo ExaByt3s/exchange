@@ -3,20 +3,20 @@ body { background: #F5F5F5; }
 .hidden { display: none; }
 
 main.container {
-    min-height: 100vh;
     display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     align-content: center;
     justify-content: center;
-    flex-direction: column;
 }
 
 section {
     background: #fff;
     box-shadow: 0 0 5px rgba(0,0,0,.3);
-    padding: 50px;
-    width: 100%;
     margin-top: 40px;
     min-height: 500px;
+    padding: 50px;
+    width: 100%;
 }
 
 hr.with-margin { margin: 20px 0 50px; }
@@ -29,21 +29,3 @@ table.table thead th { border-top: 0; }
 
 table.table td,
 table.table th { vertical-align: middle; }
-
-.user-full-name {
-    margin-right: 15px;
-    vertical-align: middle;
-}
-
-.navigation-icon {
-    max-width: 25px;
-    max-height: 25px;
-    opacity: .6;
-    vertical-align: middle;
-    transition: 200ms opacity;
-    margin-left: 10px;
-
-    &:hover {
-        opacity: 1;
-    }
-}

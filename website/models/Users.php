@@ -19,6 +19,13 @@ class Users extends BaseUsers {
             ]);
         }
 
+        if (strlen(filter_var($username, FILTER_SANITIZE_STRING)) > 32) {
+            return json_encode([
+                'success' => false,
+                'message' => Dictionary::init()['username_too_long']
+            ]);
+        }
+
         $usernameExist = $this->checkIfUserExist($username, null);
 
         if ($login && ! $usernameExist) {
@@ -53,6 +60,13 @@ class Users extends BaseUsers {
             return json_encode([
                 'success' => false,
                 'message' => Dictionary::init()['give_email']
+            ]);
+        }
+
+        if (strlen(filter_var($email, FILTER_SANITIZE_EMAIL)) > 64) {
+            return json_encode([
+                'success' => false,
+                'message' => Dictionary::init()['email_too_long']
             ]);
         }
 
@@ -138,6 +152,13 @@ class Users extends BaseUsers {
             ]);
         }
 
+        if (strlen(filter_var($firstname, FILTER_SANITIZE_STRING)) > 32) {
+            return json_encode([
+                'success' => false,
+                'message' => Dictionary::init()['firstname_too_long']
+            ]);
+        }
+
         return json_encode([
             'success' => true
         ]);
@@ -155,6 +176,13 @@ class Users extends BaseUsers {
             return json_encode([
                 'success' => false,
                 'message' => Dictionary::init()['give_surname']
+            ]);
+        }
+
+        if (strlen(filter_var($surname, FILTER_SANITIZE_STRING)) > 32) {
+            return json_encode([
+                'success' => false,
+                'message' => Dictionary::init()['surname_too_long']
             ]);
         }
 

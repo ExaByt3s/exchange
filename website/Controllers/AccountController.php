@@ -14,15 +14,16 @@
                 $this->app = $app;
             }
 
+
             /**
              * Main account page.
              */
             public function index() {
                 $session = new Sessions();
-                $userId = $session->check();
+                $userId = $session->getUserId();
 
                 if (! $userId) {
-                    header('Location: ' . $this->app->route->getContainer()->get('router')->pathFor('home.index'));
+                    header('Location: ' . $this->app->getRouteUrl('home.index'));
                     exit();
                 }
 
@@ -33,18 +34,20 @@
 
                 $this->app->template->variables['website_page'] = $this->app->twig->render('account.twig', array(
                     'full_name' => $user['Firstname'] . ' ' . $user['Surname'],
-                    'dashboard_url' => $this->app->route->getContainer()->get('router')->pathFor('dashboard.index'),
-                    'logout_url' => $this->app->route->getContainer()->get('router')->pathFor('logout'),
-                    'transfer_form_url' => $this->app->route->getContainer()->get('router')->pathFor('account.transfer'),
-                    'change_password_form_url' => $this->app->route->getContainer()->get('router')->pathFor('account.change.password'),
-                    'change_data_form_url' => $this->app->route->getContainer()->get('router')->pathFor('account.change.data'),
+                    'dashboard_url' => $this->app->getRouteUrl('dashboard.index'),
+                    'logout_url' => $this->app->getRouteUrl('logout'),
+                    'transfer_form_url' => $this->app->getRouteUrl('account.transfer'),
+                    'change_password_form_url' => $this->app->getRouteUrl('account.change.password'),
+                    'change_data_form_url' => $this->app->getRouteUrl('account.change.data'),
                     'currencies' => $currencies,
                     'email' => $user['Email'],
                     'login' => $user['Login'],
                     'firstname' => $user['Firstname'],
-                    'surname' => $user['Surname']
+                    'surname' => $user['Surname'],
+                    'script_nonce' => $this->app->getScriptNonce()
                 ));
             }
+
 
             /**
              * User login.
@@ -73,8 +76,12 @@
                 $session = new Sessions();
                 $session->create($user['Id']);
 
-                exit(json_encode(['success' => true]));
+                exit(json_encode([
+                    'success' => true,
+                    'message' => Dictionary::init()['success']
+                ]));
             }
+
 
             /**
              * Management of user wallet.
@@ -106,15 +113,17 @@
                 }
             }
 
+
             /**
              * Change the user password
              */
             public function changePassword() {
+                $sessions = new Sessions();
                 $users = new Users();
                 $validation = json_decode($users->validatePassword($_POST['password'], $_POST['password2'], false));
 
                 if ($validation->success) {
-                    $user = UsersQuery::create()->findOneById($_SESSION['userId']);
+                    $user = UsersQuery::create()->findOneById($sessions->getUserId());
                     $user->setPassword(hash('sha256', SALT . $_POST['password']));
                     $user->save();
 
@@ -127,12 +136,47 @@
                 exit(json_encode($validation));
             }
 
+
+            /**
+             * Change user data.
+             */
             public function changeData() {
+                $sessions = new Sessions();
+                $users = new Users();
+                $user = UsersQuery::create()->findOneById($sessions->getUserId());
+                $userData = $user->toArray();
+
+                $validationEmail = json_decode($users->validateEmail($_POST['email'], true));
+                $validationLogin = json_decode($users->validateUsername($_POST['login']));
+                $validationFirstname = json_decode($users->validateFirstname($_POST['firstname']));
+                $validationSurname = json_decode($users->validateSurname($_POST['surname']));
+
+                if (! $validationEmail->success && $_POST['email'] !== $userData['Email']) {
+                    exit(json_encode($validationEmail));
+                }
+
+                if (! $validationLogin->success && $_POST['login'] !== $userData['Login']) {
+                    exit(json_encode($validationLogin));
+                }
+
+                if (! $validationFirstname->success) {
+                    exit(json_encode($validationFirstname));
+                }
+
+                if (! $validationSurname->success) {
+                    exit(json_encode($validationSurname));
+                }
+
+                $user->setFirstname(filter_var($_POST['firstname'], FILTER_SANITIZE_STRING));
+                $user->setSurname(filter_var($_POST['surname'], FILTER_SANITIZE_STRING));
+                $user->save();
+
                 exit(json_encode([
-                    'success' => false,
-                    'message' => 'Feature in future... :-)'
+                    'success' => true,
+                    'message' => Dictionary::init()['data_changed']
                 ]));
             }
+
 
             /**
              * Logout user.
@@ -141,7 +185,7 @@
                 $session = new Sessions();
                 $session->remove();
 
-                header('Location: ' . $this->app->route->getContainer()->get('router')->pathFor('home.index'));
+                header('Location: ' . $this->app->getRouteUrl('home.index'));
 
                 exit();
             }

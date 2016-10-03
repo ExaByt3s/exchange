@@ -4,12 +4,17 @@ Toasters = (function () {
         timer;
 
 
+    /**
+     * Creates new toaster with message and remove old if exists.
+     *
+     * @param {string} message
+     */
     var create = function (message) {
-
         remove();
 
-        $body.append('<div class="toaster">' + message + '</div>');
-        $body.find('.toaster').animate({top: '25px'}, 250);
+        $('<div class="toaster">' + message + '</div>')
+            .appendTo('body')
+            .animate({top: '25px'}, 250);
 
         timer = setTimeout(function() {
             remove();
@@ -17,6 +22,9 @@ Toasters = (function () {
     };
 
 
+    /**
+     * Removes visible toasters.
+     */
     var remove = function () {
         if (typeof timer !== 'undefined') {
             clearTimeout(timer);

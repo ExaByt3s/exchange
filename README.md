@@ -31,10 +31,4 @@
 
 ## N. A few words at the end...
   * The application implemented SRI. Hashes CSS and JS files are generated to website/sri.json and should be changed in website/templates/index.twigg after each gulped.
-  
-
-
-
-testowe:
- sudo -u postgres pg_dump exchange > /vagrant/test.sql
- sudo -u postgres psql < /vagrant/database.sql
+  * The application implemented CSP. Please do not spoil it. :) Do not use inline styles and use inline script always with "nonce" attribute. Remember about CSP headers!

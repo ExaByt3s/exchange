@@ -1,8 +1,29 @@
+.user-full-name {
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+.navigation-icon {
+    margin: 5px 0 5px 10px;
+    max-height: 25px;
+    max-width: 25px;
+    opacity: .6;
+    transition: 200ms opacity;
+    vertical-align: middle;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
 .currencies-table,
 .wallet-table {
     height: 475px;
 
     tbody { font-size: 14px; }
+
+    thead th:last-of-type,
+    td:last-of-type { text-align: center; }
 }
 
 .currencies-table th,
@@ -12,8 +33,14 @@
 .wallet-table td { width: 20%; }
 
 .table-wrapper {
+    display: flex;
     height: 475px;
     text-align: center;
-    display: flex;
     justify-content: center;
+}
+
+.my-wallet {
+    @media (max-width: 992px){
+        margin-top: 70px;
+    }
 }

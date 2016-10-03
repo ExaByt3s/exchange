@@ -1,11 +1,5 @@
 <?php
 
-    $csp = "default-src 'self'; script-src 'self' 'unsafe-eval'; object-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; child-src 'none'; connect-src 'self' ws://webtask.future-processing.com:8068";
-
-    header("Content-Security-Policy: " . $csp);
-    header("X-Content-Security-Policy: " . $csp);
-    header("X-WebKit-CSP: " . $csp);
-
     session_start();
 
     require_once '../configuration.php';
@@ -15,6 +9,16 @@
 
     require_once '../route.php';
 
+
+    $csp = "default-src 'self'; script-src 'self' 'nonce-" . $application->getScriptNonce() . "' 'unsafe-eval'; " .
+            "cbject-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; child-src 'none'; " .
+            "connect-src 'self' ws://webtask.future-processing.com:8068";
+
+    header("Content-Security-Policy: " . $csp);
+    header("X-Content-Security-Policy: " . $csp);
+    header("X-WebKit-CSP: " . $csp);
+
+
     $application->template->variables = array_merge(
         $application->template->variables,
         array(
@@ -23,4 +27,4 @@
         )
     );
 
-    $application->renderTwig();
+    echo $application->template->render($application->template->variables);

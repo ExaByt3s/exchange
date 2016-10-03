@@ -115,7 +115,9 @@
 
 
         public function exchangeMoney($operationType, $currency, $amount, $unitPrice, $currencyUnit) {
-            $walletId   = UsersQuery::create()->findOneById($_SESSION['userId'])->toArray();
+            $sessions = new Sessions();
+
+            $walletId   = UsersQuery::create()->findOneById($sessions->getUserId())->toArray();
             $wallet     = WalletsQuery::create()->findOneById($walletId['WalletId']);
             $userWallet = $wallet->toArray();
 

@@ -6,11 +6,20 @@ Dashboard = (function () {
     };
 
 
+    /**
+     * Adds leading zeros to part of time.
+     *
+     * @param {int} time
+     * @returns {string}
+     */
     var formatTime = function(time) {
         return (time < 10) ? '0' + time : time;
     };
 
 
+    /**
+     * Binds WebSocket and updates currencies with each change.
+     */
     var bindWebSocket = function() {
         var apiSocket = new WebSocket("ws://webtask.future-processing.com:8068/ws/currencies");
 
@@ -23,12 +32,16 @@ Dashboard = (function () {
                 currency.SellPrice = parseFloat(currency.SellPrice).toFixed(2);
                 currency.UnitPrice = parseFloat(currency.PurchasePrice).toFixed(2);
                 currency.PurchasePrice = parseFloat(currency.PurchasePrice * currency.Unit).toFixed(2);
-                currency.AvailableInWallet = $('body').find('[data-currency=' + currency.Code.toLowerCase() + ']').text();
+                currency.AvailableInWallet = $('[data-currency=' + currency.Code.toLowerCase() + ']').text();
                 currenciesData.push(currency);
             });
 
             ViewModel.currencies(currenciesData);
-            ViewModel.lastUpdateTime(formatTime(lastUpdateTime.getHours()) + ':' + formatTime(lastUpdateTime.getMinutes()) + ':' + formatTime(lastUpdateTime.getSeconds()));
+            ViewModel.lastUpdateTime(
+                formatTime(lastUpdateTime.getHours()) + ':' +
+                formatTime(lastUpdateTime.getMinutes()) + ':' +
+                formatTime(lastUpdateTime.getSeconds())
+            );
 
             $('[data-toggle="tooltip"]').tooltip();
         };
@@ -37,13 +50,24 @@ Dashboard = (function () {
     };
 
 
-    var bindModalBoxes = function () {
+    /**
+     * Binds modal boxes to sell/buy buttons and initializes calculation of total amount.
+     */
+    var bindModalBox = function () {
         $('body').on('click', '[data-openModalBox="modalBox"]', function() {
             ModalBox.open($(this));
+
+            $('body').on('change', '#amount', function() {
+                var $amount = $(this),
+                    total = ($amount.val() * ($('#unitPrice').val() / $amount.attr('step'))).toFixed(2);
+                $('#total').val(total);
+            });
         });
     };
 
-
+    /**
+     * Binds ajax request to form submit event.
+     */
     var bindModalForm = function () {
         $('#modalBox').on('submit', 'form', function() {
             var currencyName = $('#currency').val(),
@@ -84,7 +108,7 @@ Dashboard = (function () {
 
     var init = function () {
         bindWebSocket();
-        bindModalBoxes();
+        bindModalBox();
         bindModalForm();
     };
 

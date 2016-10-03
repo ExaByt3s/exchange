@@ -3,11 +3,11 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="col-xs-7">
+                    <div class="col-xs-9 col-lg-7">
                         <h1 class="h3">Exchange Online - dashboard</h1>
                     </div>
-                    <div class="col-xs-5 text-xs-right">
-                        <span class="user-full-name">Logged as {{ full_name }}</span>
+                    <div class="col-xs-3 col-lg-5 text-xs-right">
+                        <span class="user-full-name hidden-md-down">Logged as {{ full_name }}</span>
                         <a href="{{ account_url }}"><img src="assets/img/account.svg" class="navigation-icon" data-toggle="tooltip" data-placement="bottom" title="Your account"></a>
                         <a href="{{ logout_url }}"><img src="assets/img/logout.svg" class="navigation-icon" data-toggle="tooltip" data-placement="bottom" title="Logout"></a>
                     </div>
@@ -50,7 +50,7 @@
                 <p>Last update: <span data-bind="text: lastUpdateTime()"></span></p>
             </div>
 
-            <div class="col-xs-12 col-lg-6">
+            <div class="col-xs-12 col-lg-6 my-wallet">
                 <h2 class="h4">My wallet</h2>
                 <hr>
                 <div class="table-wrapper" data-bind="visible: ! lastUpdateTime()"><img src="assets/img/loading.svg"></div>
@@ -98,3 +98,9 @@
         </div>
     </div>
 </section>
+
+<script nonce="{{ script_nonce }}">
+    $(function() {
+        Dashboard.init();
+    });
+</script>

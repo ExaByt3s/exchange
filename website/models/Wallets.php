@@ -4,10 +4,17 @@ use Base\Wallets as BaseWallets;
 
 class Wallets extends BaseWallets {
 
+    /**
+     * Updates currencies in user wallet.
+     *
+     * @param string $currencies
+     * @return bool
+     */
     public function transferMoney($currencies) {
         $currencies = json_decode($currencies);
 
-        $walletId   = UsersQuery::create()->findOneById($_SESSION['userId'])->toArray();
+        $sessions   = new Sessions();
+        $walletId   = UsersQuery::create()->findOneById($sessions->getUserId())->toArray();
         $wallet     = WalletsQuery::create()->findOneById($walletId['WalletId']);
 
         if ($currencies->pln !== '' && $currencies->pln >= 0 && $currencies->pln <= 2147483647) {
@@ -38,10 +45,15 @@ class Wallets extends BaseWallets {
     }
 
 
+    /**
+     * Returns currencies in user wallet.
+     *
+     * @return string
+     */
     public function getWallet() {
-        $walletId = UsersQuery::create()->findOneById($_SESSION['userId'])->toArray();
-
-        $wallet = WalletsQuery::create()->findOneById($walletId['WalletId'])->toArray();
+        $sessions   = new Sessions();
+        $walletId   = UsersQuery::create()->findOneById($sessions->getUserId())->toArray();
+        $wallet     = WalletsQuery::create()->findOneById($walletId['WalletId'])->toArray();
 
         $currencies = [
             'pln' => $wallet['Pln'],
