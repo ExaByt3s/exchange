@@ -14,6 +14,8 @@ Vagrant.configure("2") do |config|
 		vb.memory = "1024"
 	end
 	
+	config.ssh.shell = "sh"
+	
 	config.vm.provision "shell", path: "./vagrant-provision.sh"
 
 end
