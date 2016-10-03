@@ -33,6 +33,12 @@ mv composer.phar /usr/local/bin/composer
 
 COMPOSER_PROCESS_TIMEOUT=2000 composer install --working-dir=/var/www/
 
+
+# Restart after configuration
+service apache2 restart
+service postgresql restart
+
+
 # Create database
 sudo -u postgres psql -c "CREATE USER exchange WITH PASSWORD 'exchange';"
 sudo -u postgres -c "psql -c \"CREATE ROLE exchange SUPERUSER LOGIN PASSWORD 'exchange'\" "

@@ -21,9 +21,11 @@
  * Open __*exchange/website*__ directory in system console
  * Run: __*npm install --global gulp*__
  * Run: __*npm install*__
+ * Run: __*Gulp*__
  
  
 ## 3. Post-instalation
+  * Change integrity attribute in __*website/templates/index.twig*__ (from __*website/sri.json*__)
   * Add __*192.168.33.10 exchange.dev*__ to yout hosts file *(System32/drivers/ets)*
   * Open exchange.dev in your web browser
   * Pray :)

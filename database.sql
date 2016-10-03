@@ -83,11 +83,10 @@ CREATE TABLE "tokens"
   PRIMARY KEY ("id")
 );
 
+
 ALTER TABLE "tokens" ADD CONSTRAINT "tokens_fk_69bd79"
 FOREIGN KEY ("user_id")
 REFERENCES "users" ("id");
-
-COMMIT;
 
 
 GRANT SELECT ON users TO PUBLIC;
@@ -103,13 +102,5 @@ ALTER TABLE tokens OWNER TO exchange;
 
 ALTER TABLE users_id_seq OWNER TO exchange;
 ALTER TABLE tokens_id_seq OWNER TO exchange;
-ALTER TABLE walets_id_seq OWNER TO exchange;
 
--- SELECT * FROM config;
---
---
--- \connect exchange
--- SELECT * FROM users;
--- SELECT * FROM tokens;
--- SELECT * FROM wallets;
--- SELECT * FROM config;
+COMMIT;

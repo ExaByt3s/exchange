@@ -5,7 +5,7 @@
         public static function init(){
             return [
                 'success' => 'Success!',
-                'error404' => 'Error 404!<br>The page you are trying to visit does not exist! Check the address and try again.<br>If the problem persists, contact us.',
+                'error404' => 'Error 404!<br>The page you are trying to visit does not exist! Check the address and try again.<br>If the problem persists, contact us.<br><br><a href="/" class="btn btn-primary">Homepage</a>',
 
                 'cannot-transfer_money' => 'We cannot transfer money. Check form and try again!',
                 'money_transferred' => 'Money was successfully transferred!',

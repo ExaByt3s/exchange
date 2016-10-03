@@ -9,6 +9,7 @@
         public $twig;
         public $template;
         public $nonce;
+        public $exchangeRateAPIUrl = 'http://webtask.future-processing.com:8068/currencies';
 
 
         public function __construct() {

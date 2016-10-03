@@ -234,57 +234,6 @@ class Users extends BaseUsers {
     }
 
 
-    public function registerValidate() {
-        if (! isset($_POST['email']) || empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            return json_encode([
-                'success' => false,
-                'message' => 'Give your real email address!'
-            ]);
-        }
-
-        $exist = $this->checkIfUserExist(null, filter_var($_POST['email'], FILTER_SANITIZE_STRING));
-
-        if ($exist) {
-            return json_encode([
-                'success' => false,
-                'message' => 'Given email already exists!'
-            ]);
-        }
-
-        if (! isset($_POST['password']) || empty($_POST['password'])) {
-            return json_encode([
-                'success' => false,
-                'message' => Dictionary::init()['give_password']
-            ]);
-        }
-
-        if (strlen($_POST['password']) <= 6) {
-            return json_encode([
-                'success' => false,
-                'message' => Dictionary::init()['too_short_password']
-            ]);
-        }
-
-        if (! isset($_POST['password2']) || empty($_POST['password2']) || $_POST['password'] !== $_POST['password2']) {
-            return json_encode([
-                'success' => false,
-                'message' => Dictionary::init()['different_password']
-            ]);
-        }
-
-        if (! isset($_POST['terms']) || $_POST['terms'] !== 'on') {
-            return json_encode([
-                'success' => false,
-                'message' => Dictionary::init()['accept_terms']
-            ]);
-        }
-
-        return json_encode([
-            'success' => true
-        ]);
-    }
-
-
     /**
      * Creates new, inactive user account.
      *
@@ -306,47 +255,4 @@ class Users extends BaseUsers {
         return $user->getId();
     }
 
-
-    public function activationValidate() {
-        if (! isset($_POST['login']) || empty($_POST['login'])) {
-            return json_encode([
-                'success' => false,
-                'message' => Dictionary::init()['give_username']
-            ]);
-        }
-
-        $exist = $this->checkIfUserExist(filter_var($_POST['login'], FILTER_SANITIZE_STRING), null);
-
-        if ($exist) {
-            return json_encode([
-                'success' => false,
-                'message' => Dictionary::init()['username_exists']
-            ]);
-        }
-
-        if (! isset($_POST['firstname']) || empty(filter_var($_POST['firstname'], FILTER_SANITIZE_STRING))) {
-            return json_encode([
-                'success' => false,
-                'message' => Dictionary::init()['give_firstname']
-            ]);
-        }
-
-        if (! isset($_POST['surname']) || empty(filter_var($_POST['surname'], FILTER_SANITIZE_STRING))) {
-            return json_encode([
-                'success' => false,
-                'message' => Dictionary::init()['give_surname']
-            ]);
-        }
-
-        if (! isset($_POST['terms']) || $_POST['terms'] !== 'on') {
-            return json_encode([
-                'success' => false,
-                'message' => Dictionary::init()['accept_terms']
-            ]);
-        }
-
-        return json_encode([
-            'success' => true
-        ]);
-    }
 }

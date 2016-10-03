@@ -2,31 +2,39 @@
 
     class Exchange {
 
-        public function getCurrent() {
-            $apiUrl = 'http://webtask.future-processing.com:8068/currencies';
+        /**
+         * Gets current exchange rate from external API.
+         *
+         * @param string $apiUrl
+         * @return bool|mixed
+         */
+        public function getCurrentExchangeRate($apiUrl) {
+            $headers = ['Accept: application/json'];
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $apiUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            $headers = ['Accept: application/json'];
-
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-            $data = curl_exec($ch);
-
-            $httpCode = curl_getinfo($ch)['http_code'];
+            $responseData = curl_exec($ch);
+            $responseCode = curl_getinfo($ch)['http_code'];
 
             curl_close($ch);
 
-            if ($httpCode === 200) {
-                return $data;
-            }
-
-            return false;
+            return ($responseCode === 200) ? $responseData : false;
         }
 
 
+        /**
+         * Validates data before purchase.
+         *
+         * @param int $amount
+         * @param float $unitPrice
+         * @param float $currencySellPrice
+         * @param int $currencyUnit
+         * @param string $currencyCode
+         * @return string
+         */
         public function purchaseValidation($amount, $unitPrice, $currencySellPrice, $currencyUnit, $currencyCode) {
             if ($amount <= 0) {
                 return json_encode([
@@ -75,6 +83,16 @@
         }
 
 
+        /**
+         * Validates data before sale.
+         *
+         * @param int $amount
+         * @param float $unitPrice
+         * @param float $purchasePrice
+         * @param int $currencyUnit
+         * @param string $currencyCode
+         * @return string
+         */
         public function saleValidation($amount, $unitPrice, $purchasePrice, $currencyUnit, $currencyCode) {
             if ($amount <= 0) {
                 return json_encode([
@@ -113,7 +131,16 @@
         }
 
 
-
+        /**
+         * Exchange one currency to other.
+         *
+         * @param string $operationType
+         * @param string $currency
+         * @param int $amount
+         * @param float $unitPrice
+         * @param int $currencyUnit
+         * @return bool
+         */
         public function exchangeMoney($operationType, $currency, $amount, $unitPrice, $currencyUnit) {
             $sessions = new Sessions();
 

@@ -11,7 +11,7 @@
 
 
     $csp = "default-src 'self'; script-src 'self' 'nonce-" . $application->getScriptNonce() . "' 'unsafe-eval'; " .
-            "cbject-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; child-src 'none'; " .
+            "object-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; child-src 'none'; " .
             "connect-src 'self' ws://webtask.future-processing.com:8068";
 
     header("Content-Security-Policy: " . $csp);
